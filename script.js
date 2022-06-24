@@ -1,24 +1,14 @@
 const choices = ["rock", "scissors", "paper"];
 let computerSelection;
 let playerSelection;
+let playerScore = 0;
+let computerScore = 0;
+let freeze = false;
 
 
 function computerPlay() {
     var computerChoice = choices[Math.floor(Math.random() * choices.length)];
     return computerChoice;
-}
-
-function playerPlay() {
-    let choice;
-    while (true) {
-        // choice = prompt("rock, paper or scissors?");
-        choice ="rock";
-        if (choices.includes(choice.toLowerCase()))
-            return choice;
-        else {
-            // alert("not a valid choice!");
-        }
-    }
 }
 
 function playRound(computerSelection, playerSelection) {
@@ -43,19 +33,53 @@ function playRound(computerSelection, playerSelection) {
 
 }
 
-function getChoices() {
-    computerSelection = computerPlay();
-    playerSelection = playerPlay();
 
-}
 
-//play the game:
-function playGame() {
-    for (let i = 0; i < 5; i++) {
-        getChoices();
-        console.log("computer: " + computerSelection + " player: " + playerSelection);
-        console.log(playRound(computerSelection, playerSelection));
-    
+function updateScores(result){
+    let winStatus = document.getElementById("winStatus");
+    let playerDisplay = document.getElementById("playerScore");
+    let computerDisplay = document.getElementById("computerScore");
+    if(result== "tie"){
+        winStatus.innerText= "tie!";
+        return;
     }
+    if(result == "lose"){
+        winStatus.innerText= "lose";
+        computerScore++;
+        computerDisplay.innerText = "computer score: " + computerScore;
+    }
+    if(result == "win"){
+        playerScore++;
+        playerDisplay.innerText = "player score: " + playerScore;
+    }
+
 }
-playGame();
+
+function updateImages(computerChoice, choice){
+    let playerImage = document.getElementById("playerImage");
+    let computerImage= document.getElementById("computerImage");
+    playerImage.src = `../rockPaperSci/img/${choice}.jpg`;
+    computerImage.src=`../rockPaperSci/img/${computerChoice}.jpg`;
+ 
+}
+
+function playGame(e) {
+    if(freeze == true)
+        return;
+        let round;
+        let choice;
+        let computerChoice = computerPlay();
+        let elements = e.composedPath();
+        elements.forEach(element => {
+            if(element.id == "rock" || element.id == "paper" || element.id == "scissors")
+                choice = element.id;
+        });
+        round = playRound(computerChoice, choice);
+        updateImages(computerChoice, choice);
+        updateScores(round);
+        
+    
+}
+
+const playerChoices = document.querySelectorAll('.card');
+playerChoices.forEach(playerChoice => playerChoice.addEventListener('click', playGame));

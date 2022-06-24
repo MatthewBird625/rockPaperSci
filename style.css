@@ -19,6 +19,10 @@ h1,h2,h3{
     color: white;
 }
 
+img {
+    border-radius: 15px;
+}
+
 .playerChoices, .score, .choiceDisplay{
     width: 70%;
     display: flex;
@@ -30,6 +34,9 @@ h1,h2,h3{
 
 .score{
     width: 90%;
+}
+.choiceDisplay{
+    width: 77%;
 }
 
 .playerChoices{
