@@ -17,6 +17,12 @@ body {
 
 h1,h2,h3{
     color: white;
+    text-align: center;
+}
+
+h3{
+    min-width: 100px;
+    max-width: 100px;
 }
 
 img {
@@ -36,7 +42,17 @@ img {
     width: 90%;
 }
 .choiceDisplay{
-    width: 77%;
+    width: 70%;
+}
+
+.winStatusDiv{
+
+
+    min-width: 200px;
+    max-width: 200px;
+    height: 200px;
+    text-align: center;
+
 }
 
 .playerChoices{
@@ -68,3 +84,20 @@ img {
     
   }
 
+
+  .button {
+    background-color: #4c5baf;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+
+    
+  }

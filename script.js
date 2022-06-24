@@ -6,7 +6,7 @@ let computerScore = 0;
 let freeze = false;
 
 
-function computerPlay() {
+function computerRandomChoice() {
     var computerChoice = choices[Math.floor(Math.random() * choices.length)];
     return computerChoice;
 }
@@ -33,24 +33,48 @@ function playRound(computerSelection, playerSelection) {
 
 }
 
+function gameResult(result){
+    let winStatus = document.getElementById("winStatus");
+    let playerImage = document.getElementById("playerImage");
+    let computerImage= document.getElementById("computerImage");
+    freeze = true;
+    toggleButton();
+    if(result == "win"){
+        winStatus.innerText = "You beat\n\nthe computer!";
+        computerImage.src = "../rockPaperSci/img/happyRock.jpg"
+        playerImage.src = "../rockPaperSci/img/happyRock.jpg"
+    }
+    else{
+        winStatus.innerText = "You lost!\n\nDwayne...\n\nis sad :(";
+        computerImage.src = "../rockPaperSci/img/sadRock.jpg"
+        playerImage.src = "../rockPaperSci/img/sadRock.jpg"
+        
+    }
+    
 
+}
 
 function updateScores(result){
     let winStatus = document.getElementById("winStatus");
     let playerDisplay = document.getElementById("playerScore");
     let computerDisplay = document.getElementById("computerScore");
     if(result== "tie"){
-        winStatus.innerText= "tie!";
+        winStatus.innerText= "Tie!";
         return;
     }
     if(result == "lose"){
-        winStatus.innerText= "lose";
+        winStatus.innerText= "Loses to:";
         computerScore++;
-        computerDisplay.innerText = "computer score: " + computerScore;
+        computerDisplay.innerText = "Computer score: " + computerScore;
+        if(computerScore == 5)
+            gameResult("lose");
     }
     if(result == "win"){
         playerScore++;
-        playerDisplay.innerText = "player score: " + playerScore;
+        winStatus.innerText= "Beats: ";
+        playerDisplay.innerText = "Player score: " + playerScore;
+        if(playerScore == 5)
+            gameResult("win");
     }
 
 }
@@ -68,7 +92,7 @@ function playGame(e) {
         return;
         let round;
         let choice;
-        let computerChoice = computerPlay();
+        let computerChoice = computerRandomChoice();
         let elements = e.composedPath();
         elements.forEach(element => {
             if(element.id == "rock" || element.id == "paper" || element.id == "scissors")
@@ -81,5 +105,34 @@ function playGame(e) {
     
 }
 
+function toggleButton() {
+    var button = document.getElementById("restartButton");
+    if (button.style.display === "none") {
+      button.style.display = "block";
+    } else {
+      button.style.display = "none";
+    }
+  }
+
+  function restartGame(){
+    playerScore = 0;
+    computerScore = 0; 
+    let playerImage = document.getElementById("playerImage");
+    let computerImage= document.getElementById("computerImage");
+    let winStatus = document.getElementById("winStatus");
+    let playerDisplay = document.getElementById("playerScore");
+    let computerDisplay = document.getElementById("computerScore");
+    playerImage.src = `../rockPaperSci/img/question.png`;
+    computerImage.src=`../rockPaperSci/img/question.png`;
+    winStatus.innerText ="";
+    playerDisplay.innerText = "player score: 0"
+    computerDisplay.innerText= "Computer score: 0"
+    toggleButton();
+    freeze= false;
+  }
+
+toggleButton();
 const playerChoices = document.querySelectorAll('.card');
+const restartButton = document.getElementById('restartButton');
 playerChoices.forEach(playerChoice => playerChoice.addEventListener('click', playGame));
+restartButton.addEventListener('click',restartGame);
